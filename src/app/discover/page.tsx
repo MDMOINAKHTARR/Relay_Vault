@@ -24,7 +24,7 @@ export default function DiscoverPage() {
     })
     .sort((a, b) => {
       if (sortBy === 'reputation') return b.reputationScore - a.reputationScore;
-      if (sortBy === 'price') return a.pricingModel.basePrice - b.pricingModel.basePrice;
+      if (sortBy === 'price') return Number(a.pricingModel.basePrice) - Number(b.pricingModel.basePrice);
       return b.totalTasksCompleted - a.totalTasksCompleted;
     });
 

@@ -90,7 +90,7 @@ export function AgentCard({ agent, compact = false }: AgentCardProps) {
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8, marginBottom: 14 }}>
         {[
-          { val: `${agent.pricingModel.basePrice > 0 ? agent.pricingModel.basePrice : '—'}`, lbl: 'BASE USDC' },
+          { val: `${Number(agent.pricingModel.basePrice) > 0 ? agent.pricingModel.basePrice : '—'}`, lbl: 'BASE USDC' },
           { val: agent.totalTasksCompleted.toLocaleString(), lbl: 'TASKS' },
         ].map(({ val, lbl }) => (
           <div key={lbl} style={{ textAlign: 'center', padding: '10px 4px', border: '1px solid var(--rv-gray-100)', background: 'var(--rv-white)' }}>

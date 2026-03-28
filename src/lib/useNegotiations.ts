@@ -9,11 +9,11 @@ export type OnChainBid = {
   taskSpecCID: string;
   initiator: string;
   targetAgent: string;
-  price: number;       // human-readable (formatEther)
+  price: string;       // human-readable formatEther string (preserves exact decimals without scientific notation)
   priceRaw: bigint;    // raw for contract calls
   ttlBlocks: number;
   state: 'OPEN' | 'COUNTERED' | 'ACCEPTED' | 'EXPIRED' | 'CANCELLED';
-  counterHistory: { price: number; by: string; at: number }[];
+  counterHistory: { price: string; by: string; at: number }[];
   createdAt: number;
 };
 
@@ -32,14 +32,14 @@ function mapBid(raw: any): OnChainBid | null {
     taskSpecCID: raw.taskSpecCID as string,
     initiator: raw.initiator as string,
     targetAgent: raw.targetAgent as string,
-    price: Number(formatEther(raw.price as bigint)),
+    price: formatEther(raw.price as bigint),
     priceRaw: raw.price as bigint,
     ttlBlocks: Number(raw.ttlBlocks),
     state: STATE_MAP[Number(raw.state)] ?? 'EXPIRED',
     counterHistory: (raw.counterHistory as any[]).map((c) => ({
-      price: Number(formatEther(c.price as bigint)),
+      price: formatEther(c.price as bigint),
       by: c.by as string,
-      at: Number(c.at) * 1000, // convert to ms for Date
+      at: Number(c.at) * 1000,
     })),
     createdAt: Number(raw.createdAt),
   };

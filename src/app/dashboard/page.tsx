@@ -194,7 +194,7 @@ export default function DashboardPage() {
                 { label: 'Vault Address', value: `${agent.vaultAddress.slice(0, 10)}...${agent.vaultAddress.slice(-8)}` },
                 { label: 'Registered At', value: new Date(agent.registeredAt * 1000).toLocaleDateString() },
                 { label: 'Pricing Type', value: ['FIXED', 'DUTCH', 'REVERSE AUCTION'][agent.pricingModel.pricingType] ?? 'FIXED' },
-                { label: 'Base Price', value: agent.pricingModel.basePrice > 0 ? `${agent.pricingModel.basePrice} USDC` : '—' },
+                { label: 'Base Price', value: Number(agent.pricingModel.basePrice) > 0 ? `${agent.pricingModel.basePrice} USDC` : '—' },
               ].map(({ label, value }) => (
                 <div key={label} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--rv-gray-100)' }}>
                   <span className="text-label" style={{ fontSize: 11 }}>{label}</span>

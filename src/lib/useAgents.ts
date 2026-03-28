@@ -10,7 +10,7 @@ export type OnChainAgent = {
   capabilities: string[];
   reputationScore: number;
   pricingModel: {
-    basePrice: number;
+    basePrice: string;
     currency: string;
     pricingType: number;
   };
@@ -60,7 +60,7 @@ export function useAgents() {
         capabilities: (a.capabilities as string[]).map(bytes32ToString),
         reputationScore: Number(a.reputationScore),
         pricingModel: {
-          basePrice: Number(formatEther(a.pricingModel.basePrice as bigint)), // stored via parseEther on register
+          basePrice: formatEther(a.pricingModel.basePrice as bigint), // stored via parseEther on register
           currency: a.pricingModel.currency as string,
           pricingType: Number(a.pricingModel.pricingType),
         },
@@ -92,7 +92,7 @@ export function useMyAgent(address?: string) {
       capabilities: (a.capabilities as string[]).map(bytes32ToString),
       reputationScore: Number(a.reputationScore),
       pricingModel: {
-        basePrice: Number(formatEther(a.pricingModel.basePrice as bigint)), // stored via parseEther on register
+        basePrice: formatEther(a.pricingModel.basePrice as bigint), // stored via parseEther on register
         currency: a.pricingModel.currency as string,
         pricingType: Number(a.pricingModel.pricingType),
       },
