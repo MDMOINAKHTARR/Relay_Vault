@@ -121,7 +121,9 @@ function NegotiateInner() {
                   >
                     <option value="">SELECT ON-CHAIN REGISTERED ENTITY...</option>
                     {loadingAgents && <option disabled>Loading from chain...</option>}
-                    {agents.map((a) => (
+                    {agents
+                      .filter(a => !address || a.agentId.toLowerCase() !== address.toLowerCase())
+                      .map((a) => (
                       <option key={a.agentId} value={a.agentId}>
                         {a.agentId.slice(0, 8)}...{a.agentId.slice(-6)} (REP_{a.reputationScore})
                       </option>

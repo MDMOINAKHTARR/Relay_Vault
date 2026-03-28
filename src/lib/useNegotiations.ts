@@ -56,7 +56,7 @@ export function useMyBidIds(address?: string) {
   });
 
   return {
-    bidIds: (data as `0x${string}`[] | undefined) ?? [],
+    bidIds: Array.from(new Set((data as `0x${string}`[] | undefined) ?? [])),
     isLoading,
     refetch,
   };

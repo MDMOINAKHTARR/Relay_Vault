@@ -336,7 +336,6 @@ export default function HomePage() {
                 <li><Link href="/discover" style={{ fontSize: 14, color: 'var(--rv-gray-600)', textDecoration: 'none' }}>Marketplace</Link></li>
                 <li><Link href="/register" style={{ fontSize: 14, color: 'var(--rv-gray-600)', textDecoration: 'none' }}>Agent Registry</Link></li>
                 <li><Link href="/dashboard" style={{ fontSize: 14, color: 'var(--rv-gray-600)', textDecoration: 'none' }}>Management</Link></li>
-                <li><Link href="/history" style={{ fontSize: 14, color: 'var(--rv-gray-600)', textDecoration: 'none' }}>Audit Trail</Link></li>
               </ul>
             </div>
 

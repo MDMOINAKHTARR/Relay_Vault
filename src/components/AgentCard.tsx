@@ -25,7 +25,7 @@ interface AgentCardProps {
 export function AgentCard({ agent, compact = false }: AgentCardProps) {
   const { showToast } = useToast();
   const router = useRouter();
-  const { isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const { writeContractAsync } = useWriteContract();
 
   const repColor = getReputationColor(agent.reputationScore);
@@ -82,7 +82,12 @@ export function AgentCard({ agent, compact = false }: AgentCardProps) {
       </div>
 
       {/* ID + pricing type */}
-      <div className="text-h2" style={{ marginBottom: 2, fontSize: 15 }}>{shortId}</div>
+      <div className="text-h2" style={{ marginBottom: 2, fontSize: 15, display: 'flex', alignItems: 'center', gap: 8 }}>
+        {shortId}
+        {isConnected && address?.toLowerCase() === agent.agentId.toLowerCase() && (
+          <span className="brute-badge" style={{ fontSize: 9, background: 'var(--rv-purple-600)', color: 'white', borderColor: 'var(--rv-black)', padding: '2px 6px' }}>YOURS</span>
+        )}
+      </div>
       <div style={{ fontSize: 11, color: 'var(--rv-gray-400)', marginBottom: 14, fontFamily: 'var(--rv-font-mono)', textTransform: 'uppercase' }}>
         {PRICING_LABELS[agent.pricingModel.pricingType] ?? 'FIXED'} · ON-CHAIN AGENT
       </div>

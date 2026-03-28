@@ -11,7 +11,7 @@ const navLinks = [
   { href: '/negotiate', label: 'Negotiate', icon: Activity },
   { href: '/vault', label: 'Vault', icon: Wallet },
   { href: '/dashboard', label: 'Dashboard', icon: BarChart3 },
-  { href: '/history', label: 'History', icon: BookOpen },
+
   { href: '/register', label: 'Register', icon: Settings },
 ];
 
