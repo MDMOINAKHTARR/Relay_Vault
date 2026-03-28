@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState, useCallback } from 'react';
 import { usePublicClient } from 'wagmi';
-import { parseAbiItem, formatUnits } from 'viem';
+import { parseAbiItem, formatUnits, createPublicClient, custom } from 'viem';
 import { CONTRACT_ADDRESSES } from './contracts';
 
 export type LiveTxEvent = {
@@ -27,12 +27,16 @@ const REPUTATION_SIG     = parseAbiItem('event ReputationUpdated(address indexed
 const AGENTREGISTERED_SIG= parseAbiItem('event AgentRegistered(address indexed agentId, address vaultAddress, bytes32[] capabilities, uint256 timestamp)');
 
 export function useTransactionHistory() {
-  const client = usePublicClient();
+  const fallbackClient = usePublicClient();
   const [events, setEvents] = useState<LiveTxEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   const fetchEvents = useCallback(async () => {
+    const client = (typeof window !== 'undefined' && window.ethereum) 
+      ? createPublicClient({ transport: custom(window.ethereum as any) })
+      : fallbackClient;
+
     if (!client) return;
     setIsLoading(true);
     setIsError(false);
@@ -71,7 +75,7 @@ export function useTransactionHistory() {
           id: `${log.transactionHash}-${log.logIndex}-released`,
           type: 'FundsReleased',
           escrowId: escrowId ? `${(escrowId as string).slice(0, 10)}...` : undefined,
-          amount: amount ? Number(formatUnits(amount as bigint, 6)) : undefined,
+          amount: amount ? ((amount as bigint) < 1000000000000000n ? Number(formatUnits(amount as bigint, 6)) : Number(formatUnits(amount as bigint, 18))) : undefined,
           to: vaultAddress as string,
           blockNumber: Number(log.blockNumber ?? 0n),
           txHash: log.transactionHash ?? '',
@@ -85,7 +89,7 @@ export function useTransactionHistory() {
           id: `${log.transactionHash}-${log.logIndex}-locked`,
           type: 'FundsLocked',
           escrowId: escrowId ? `${(escrowId as string).slice(0, 10)}...` : undefined,
-          amount: amount ? Number(formatUnits(amount as bigint, 6)) : undefined,
+          amount: amount ? ((amount as bigint) < 1000000000000000n ? Number(formatUnits(amount as bigint, 6)) : Number(formatUnits(amount as bigint, 18))) : undefined,
           from: payer as string,
           to: receiver as string,
           blockNumber: Number(log.blockNumber ?? 0n),
@@ -123,7 +127,7 @@ export function useTransactionHistory() {
           id: `${log.transactionHash}-${log.logIndex}-refund`,
           type: 'EscrowRefunded',
           escrowId: escrowId ? `${(escrowId as string).slice(0, 10)}...` : undefined,
-          amount: amount ? Number(formatUnits(amount as bigint, 6)) : undefined,
+          amount: amount ? ((amount as bigint) < 1000000000000000n ? Number(formatUnits(amount as bigint, 6)) : Number(formatUnits(amount as bigint, 18))) : undefined,
           blockNumber: Number(log.blockNumber ?? 0n),
           txHash: log.transactionHash ?? '',
         });
@@ -162,7 +166,7 @@ export function useTransactionHistory() {
     } finally {
       setIsLoading(false);
     }
-  }, [client]);
+  }, [fallbackClient]);
 
   useEffect(() => {
     fetchEvents();

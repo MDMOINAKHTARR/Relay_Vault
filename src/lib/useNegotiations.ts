@@ -2,7 +2,7 @@
 import { useReadContract, useReadContracts } from 'wagmi';
 import { CONTRACT_ADDRESSES, NEGOTIATION_ABI } from './contracts';
 import { useMemo } from 'react';
-import { formatEther } from 'viem';
+import { formatEther, formatUnits } from 'viem';
 
 export type OnChainBid = {
   bidId: string;
@@ -32,12 +32,12 @@ function mapBid(raw: any): OnChainBid | null {
     taskSpecCID: raw.taskSpecCID as string,
     initiator: raw.initiator as string,
     targetAgent: raw.targetAgent as string,
-    price: formatEther(raw.price as bigint),
+    price: (raw.price as bigint) < 1000000000000000n ? formatUnits(raw.price as bigint, 6) : formatEther(raw.price as bigint),
     priceRaw: raw.price as bigint,
     ttlBlocks: Number(raw.ttlBlocks),
     state: STATE_MAP[Number(raw.state)] ?? 'EXPIRED',
     counterHistory: (raw.counterHistory as any[]).map((c) => ({
-      price: formatEther(c.price as bigint),
+      price: (c.price as bigint) < 1000000000000000n ? formatUnits(c.price as bigint, 6) : formatEther(c.price as bigint),
       by: c.by as string,
       at: Number(c.at) * 1000,
     })),
@@ -80,7 +80,8 @@ export function useBids(bidIds: `0x${string}`[]) {
     if (!data) return [];
     return data
       .map((result) => (result.status === 'success' ? mapBid(result.result) : null))
-      .filter((b): b is OnChainBid => b !== null);
+      .filter((b): b is OnChainBid => b !== null)
+      .sort((a, b) => b.createdAt - a.createdAt);
   }, [data]);
 
   return { bids, isLoading, refetch };
