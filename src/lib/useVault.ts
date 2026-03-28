@@ -70,12 +70,21 @@ export function useVaultState(vaultAddress?: string) {
   const routing: VaultRouting = useMemo(() => {
     const defaults = { lockBps: 2000, holdBps: 5000, splitBps: 3000 };
     if (!data || data.length < 3) return defaults;
-    const lockResult = data[1];
-    const holdResult = data[2];
-    if (lockResult.status !== 'success' || holdResult.status !== 'success') return defaults;
-    const lockBps = Number(lockResult.result as bigint);
-    const holdBps = Number(holdResult.result as bigint);
-    return { lockBps, holdBps, splitBps: 10000 - lockBps - holdBps };
+    // Cast results to a safer access type
+    const lRes = data[1] as { result?: bigint; status: string };
+    const hRes = data[2] as { result?: bigint; status: string };
+    
+    if (lRes.status !== 'success' || hRes.status !== 'success') return defaults;
+    
+    // Explicitly check for bigint before conversion
+    const lBps = typeof lRes.result === 'bigint' ? Number(lRes.result) : 2000;
+    const hBps = typeof hRes.result === 'bigint' ? Number(hRes.result) : 5000;
+    
+    return { 
+      lockBps: lBps, 
+      holdBps: hBps, 
+      splitBps: 10000 - lBps - hBps 
+    };
   }, [data]);
 
   return { balances, routing, isLoading, isError, refetch };

@@ -21,11 +21,11 @@ contract ReputationBondManager {
     }
 
     function calculateRequiredBond(uint256 taskValueUsdc) public pure returns (uint256) {
-        if (taskValueUsdc < 100 * 1e6) { // Assuming USDC has 6 decimals
+        if (taskValueUsdc < 100 * 1e18) { // Assuming 18 decimals
             return 0;
-        } else if (taskValueUsdc <= 1000 * 1e6) {
+        } else if (taskValueUsdc <= 1000 * 1e18) {
             return (taskValueUsdc * 10) / 100; // 10%
-        } else if (taskValueUsdc <= 10000 * 1e6) {
+        } else if (taskValueUsdc <= 10000 * 1e18) {
             return (taskValueUsdc * 15) / 100; // 15%
         } else {
             return (taskValueUsdc * 20) / 100; // 20%

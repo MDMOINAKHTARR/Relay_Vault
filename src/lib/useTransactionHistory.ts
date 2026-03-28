@@ -67,7 +67,7 @@ export function useTransactionHistory() {
       for (const log of releasedLogs) {
         const { escrowId, amount, vaultAddress } = log.args as any;
         all.push({
-          id: `${log.transactionHash}-released`,
+          id: `${log.transactionHash}-${log.logIndex}-released`,
           type: 'FundsReleased',
           escrowId: escrowId ? `${(escrowId as string).slice(0, 10)}...` : undefined,
           amount: amount ? Number(formatUnits(amount as bigint, 6)) : undefined,
@@ -81,7 +81,7 @@ export function useTransactionHistory() {
       for (const log of lockedLogs) {
         const { escrowId, payer, receiver, amount } = log.args as any;
         all.push({
-          id: `${log.transactionHash}-locked`,
+          id: `${log.transactionHash}-${log.logIndex}-locked`,
           type: 'FundsLocked',
           escrowId: escrowId ? `${(escrowId as string).slice(0, 10)}...` : undefined,
           amount: amount ? Number(formatUnits(amount as bigint, 6)) : undefined,
@@ -95,7 +95,7 @@ export function useTransactionHistory() {
       for (const log of completedLogs) {
         const { escrowId, completionProof } = log.args as any;
         all.push({
-          id: `${log.transactionHash}-completed`,
+          id: `${log.transactionHash}-${log.logIndex}-completed`,
           type: 'TaskCompleted',
           escrowId: escrowId ? `${(escrowId as string).slice(0, 10)}...` : undefined,
           blockNumber: Number(log.blockNumber ?? 0n),
@@ -107,7 +107,7 @@ export function useTransactionHistory() {
       for (const log of disputeLogs) {
         const { escrowId, evidenceCID } = log.args as any;
         all.push({
-          id: `${log.transactionHash}-dispute`,
+          id: `${log.transactionHash}-${log.logIndex}-dispute`,
           type: 'DisputeOpened',
           escrowId: escrowId ? `${(escrowId as string).slice(0, 10)}...` : undefined,
           blockNumber: Number(log.blockNumber ?? 0n),
@@ -119,7 +119,7 @@ export function useTransactionHistory() {
       for (const log of refundLogs) {
         const { escrowId, amount } = log.args as any;
         all.push({
-          id: `${log.transactionHash}-refund`,
+          id: `${log.transactionHash}-${log.logIndex}-refund`,
           type: 'EscrowRefunded',
           escrowId: escrowId ? `${(escrowId as string).slice(0, 10)}...` : undefined,
           amount: amount ? Number(formatUnits(amount as bigint, 6)) : undefined,
@@ -131,7 +131,7 @@ export function useTransactionHistory() {
       for (const log of repLogs) {
         const { agentId, newScore, trigger } = log.args as any;
         all.push({
-          id: `${log.transactionHash}-rep`,
+          id: `${log.transactionHash}-${log.logIndex}-rep`,
           type: 'ReputationUpdated',
           agentId: agentId as string,
           amount: newScore ? Number(newScore) : undefined,
@@ -144,7 +144,7 @@ export function useTransactionHistory() {
       for (const log of registeredLogs) {
         const { agentId } = log.args as any;
         all.push({
-          id: `${log.transactionHash}-registered`,
+          id: `${log.transactionHash}-${log.logIndex}-registered`,
           type: 'AgentRegistered',
           agentId: agentId as string,
           blockNumber: Number(log.blockNumber ?? 0n),

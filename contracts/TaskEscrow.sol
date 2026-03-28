@@ -38,7 +38,7 @@ contract TaskEscrow is ITaskEscrow {
 
     function approveLargeTask(bytes32 escrowId) external {
         require(msg.sender == governance, "Only governance");
-        require(escrows[escrowId].amount > 10000 * 1e6, "Not a large task");
+        require(escrows[escrowId].amount > 10000 * 1e18, "Not a large task");
         largeTaskApproved[escrowId] = true;
     }
 
@@ -48,7 +48,7 @@ contract TaskEscrow is ITaskEscrow {
     }
 
     function lockFunds(bytes32 bidId, uint256 amount, uint256 deadlineBlocks) external override onlyNegotiation {
-        // Assume USDC transferred here from payer
+        // Assume MON/USDC (18 decimals) transferred here from payer
         INegotiationEngine.Bid memory bid = negotiation.getBid(bidId);
         require(bid.state == INegotiationEngine.BidState.ACCEPTED, "Bid not accepted");
 
@@ -77,7 +77,7 @@ contract TaskEscrow is ITaskEscrow {
         require(escrow.state == EscrowState.LOCKED, "Not locked");
         require(msg.sender == escrow.payer || msg.sender == escrow.receiver, "Unauthorized");
 
-        if (escrow.amount > 10000 * 1e6) {
+        if (escrow.amount > 10000 * 1e18) {
             require(largeTaskApproved[escrowId], "Governance approval required");
         }
 
