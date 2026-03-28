@@ -1,0 +1,88 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "ITaskEscrow",
+  "sourceName": "contracts/IRelayVault.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "bidId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "deadlineBlocks",
+          "type": "uint256"
+        }
+      ],
+      "name": "lockFunds",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "escrowId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "evidenceCID",
+          "type": "string"
+        }
+      ],
+      "name": "openDispute",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "escrowId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint8",
+          "name": "resolutionOutcome",
+          "type": "uint8"
+        }
+      ],
+      "name": "resolveDispute",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "escrowId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "completionProof",
+          "type": "string"
+        }
+      ],
+      "name": "verifyAndRelease",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

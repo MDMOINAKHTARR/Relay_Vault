@@ -1,0 +1,207 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Colors */
+    --rv-black: #0D0D0D;
+    --rv-white: #F5F2EB;
+    --rv-pure-white: #FFFFFF;
+
+    --rv-purple-50: #EEEDFE;
+    --rv-purple-200: #AFA9EC;
+    --rv-purple-600: #534AB7;
+    --rv-purple-900: #26215C;
+
+    --rv-teal-50: #E1F5EE;
+    --rv-teal-600: #0F6E56;
+    --rv-teal-900: #04342C;
+
+    --rv-coral-50: #FAECE7;
+    --rv-coral-600: #993C1D;
+    --rv-coral-900: #4A1B0C;
+
+    --rv-gray-100: #D3D1C7;
+    --rv-gray-400: #888780;
+    --rv-gray-700: #444441;
+
+    --rv-yellow: #F5C842;
+
+    /* Typography */
+    --rv-font-sans: "Space Grotesk", system-ui, sans-serif;
+    --rv-font-mono: "JetBrains Mono", monospace;
+
+    /* Spacing */
+    --sp-1: 4px;
+    --sp-2: 8px;
+    --sp-3: 12px;
+    --sp-4: 16px;
+    --sp-5: 24px;
+    --sp-6: 32px;
+    --sp-8: 48px;
+    --sp-10: 64px;
+    --sp-12: 96px;
+
+    /* Shadows */
+    --rv-shadow-sm: 3px 3px 0px #0D0D0D;
+    --rv-shadow-md: 4px 4px 0px #0D0D0D;
+    --rv-shadow-lg: 6px 6px 0px #0D0D0D;
+    --rv-shadow-xl: 8px 8px 0px #0D0D0D;
+    --rv-shadow-purple: 4px 4px 0px #534AB7;
+    --rv-shadow-teal: 4px 4px 0px #0F6E56;
+    --rv-shadow-coral: 4px 4px 0px #993C1D;
+
+    /* Borders */
+    --rv-border-hard: 1.5px solid #0D0D0D;
+    --rv-border-soft: 1px solid #D3D1C7;
+    --rv-border-dashed: 1.5px dashed #0D0D0D;
+
+    /* Layout */
+    --rv-sidebar-width: 240px;
+    --rv-content-max-width: 1280px;
+  }
+
+  [data-theme="dark"] {
+    --rv-black: #F5F2EB;
+    --rv-white: #0D0D0D;
+    --rv-pure-white: #1A1A1A;
+    --rv-gray-100: #2A2A2A;
+    --rv-gray-700: #D3D1C7;
+    --rv-shadow-sm: 3px 3px 0px rgba(245,242,235,0.25);
+    --rv-shadow-md: 4px 4px 0px rgba(245,242,235,0.25);
+    --rv-shadow-lg: 6px 6px 0px rgba(245,242,235,0.25);
+    --rv-shadow-xl: 8px 8px 0px rgba(245,242,235,0.25);
+    --rv-purple-50: #26215C;
+    --rv-purple-600: #7F77DD;
+    --rv-teal-50: #04342C;
+    --rv-teal-600: #1D9E75;
+    --rv-coral-50: #4A1B0C;
+    --rv-coral-600: #D85A30;
+  }
+
+  *, *::before, *::after { 
+    box-sizing: border-box; 
+    border-radius: 0 !important; /* Neo Brutalism strictly 0px radius */
+  }
+
+  body {
+    font-family: var(--rv-font-sans);
+    background-color: var(--rv-white);
+    color: var(--rv-black);
+    min-height: 100vh;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--rv-white); border-left: 1px solid var(--rv-black); }
+  ::-webkit-scrollbar-thumb { background: var(--rv-black); }
+}
+
+@layer components {
+  /* Brute Surfaces */
+  .brute-card {
+    background: var(--rv-pure-white);
+    border: var(--rv-border-hard);
+    box-shadow: var(--rv-shadow-md);
+    padding: var(--sp-5);
+  }
+  .brute-card-interactive {
+    background: var(--rv-pure-white);
+    border: var(--rv-border-hard);
+    box-shadow: var(--rv-shadow-md);
+    padding: var(--sp-5);
+    cursor: pointer;
+    transition: all 75ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .brute-card-interactive:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--rv-black);
+  }
+  .brute-card-interactive:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+  }
+
+  /* Typography Utilities */
+  .text-display { font-size: 48px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+  .text-h1 { font-size: 32px; font-weight: 700; line-height: 1.1; }
+  .text-h2 { font-size: 24px; font-weight: 600; line-height: 1.2; }
+  .text-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+  .text-mono { font-family: var(--rv-font-mono); font-size: 13px; letter-spacing: 0.02em; }
+
+  /* Buttons */
+  .brute-btn {
+    @apply inline-flex items-center justify-center gap-2 px-5 font-semibold transition-all duration-75 cursor-pointer rounded-none;
+    height: 40px;
+    border: var(--rv-border-hard);
+    box-shadow: var(--rv-shadow-sm);
+    background: var(--rv-pure-white);
+    color: var(--rv-black);
+    font-family: var(--rv-font-sans);
+    font-size: 14px;
+  }
+  .brute-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px var(--rv-black);
+  }
+  .brute-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+
+  .brute-btn-primary {
+    background: var(--rv-black);
+    color: var(--rv-pure-white);
+  }
+  .brute-btn-purple {
+    background: var(--rv-purple-600);
+    color: var(--rv-pure-white);
+    box-shadow: var(--rv-shadow-purple);
+  }
+  .brute-btn-teal {
+    background: var(--rv-teal-600);
+    color: var(--rv-pure-white);
+    box-shadow: var(--rv-shadow-teal);
+  }
+  .brute-btn-destructive {
+    background: var(--rv-coral-600);
+    color: var(--rv-pure-white);
+    box-shadow: var(--rv-shadow-coral);
+  }
+
+  /* Badges */
+  .brute-badge {
+    @apply inline-flex items-center px-2 py-1 border rounded-none;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    height: 24px;
+    border-radius: 0;
+  }
+  .badge-active { background: var(--rv-purple-50); border-color: var(--rv-purple-600); color: var(--rv-purple-900); }
+  .badge-success { background: var(--rv-teal-50); border-color: var(--rv-teal-600); color: var(--rv-teal-900); }
+  .badge-error { background: var(--rv-coral-50); border-color: var(--rv-coral-600); color: var(--rv-coral-900); }
+  .badge-warning { background: rgba(245, 200, 66, 0.1); border-color: var(--rv-yellow); color: #7A5C00; }
+
+  /* Inputs */
+  .brute-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: var(--rv-border-hard);
+    background: var(--rv-pure-white);
+    color: var(--rv-black);
+    font-family: var(--rv-font-mono);
+    font-size: 14px;
+    outline: none;
+    transition: all 75ms;
+  }
+  .brute-input:focus {
+    box-shadow: var(--rv-shadow-sm);
+    background: var(--rv-white);
+  }
+  .brute-input::placeholder {
+    color: var(--rv-gray-400);
+    opacity: 0.6;
+  }
+}
