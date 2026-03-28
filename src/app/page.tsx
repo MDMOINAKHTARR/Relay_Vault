@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { AgentCard } from '@/components/AgentCard';
-import { AGENTS } from '@/lib/mockData';
+import { useAgents } from '@/lib/useAgents';
 import { ArrowRight, Zap, Shield, Globe, BarChart3, Users, Lock, ChevronRight, MessageCircle, Cpu, Send } from 'lucide-react';
 import { useToast } from '@/components/ToastProvider';
 
@@ -25,6 +25,8 @@ const stats = [
 
 export default function HomePage() {
   const { showToast } = useToast();
+  const { agents, isLoading: loadingAgents } = useAgents();
+  const topAgents = agents.slice(0, 3);
 
   return (
     <div style={{ background: 'var(--rv-white)', minHeight: '100vh' }}>
@@ -251,9 +253,21 @@ export default function HomePage() {
             </Link>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
-            {AGENTS.slice(0, 3).map(agent => (
-              <AgentCard key={agent.agentId} agent={agent} />
-            ))}
+            {loadingAgents ? (
+              [1,2,3].map(i => (
+                <div key={i} className="brute-card" style={{ padding: 32, height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--rv-gray-300)', fontFamily: 'var(--rv-font-mono)', fontSize: 12, borderStyle: 'dashed' }}>
+                  LOADING FROM CHAIN...
+                </div>
+              ))
+            ) : topAgents.length > 0 ? (
+              topAgents.map(agent => (
+                <AgentCard key={agent.agentId} agent={agent} />
+              ))
+            ) : (
+              <div className="brute-card" style={{ gridColumn: '1/-1', padding: 48, textAlign: 'center', color: 'var(--rv-gray-400)', fontFamily: 'var(--rv-font-mono)', fontSize: 13, borderStyle: 'dashed' }}>
+                No agents registered yet. <Link href="/register" style={{ color: 'var(--rv-purple-600)', fontWeight: 700 }}>Be the first →</Link>
+              </div>
+            )}
           </div>
         </div>
 
