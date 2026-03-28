@@ -61,7 +61,7 @@ contract NegotiationEngine is INegotiationEngine {
 
         bid.price = newPrice;
         bid.state = BidState.COUNTERED;
-        bid.ttlBlocks = block.number + 100; // Reset TTL on counter
+        bid.ttlBlocks = block.number + 86400; // Reset TTL on counter (24 hours)
 
         bid.counterHistory.push(CounterBid({
             price: newPrice,
@@ -85,7 +85,7 @@ contract NegotiationEngine is INegotiationEngine {
         
         // Ensure taskEscrow has the lockFunds method and call it.
         // In a complete implementation, this would require approval from payer.
-        ITaskEscrow(taskEscrow).lockFunds(bidId, bid.price, 100);
+        ITaskEscrow(taskEscrow).lockFunds(bidId, bid.price, 2592000); // Give agent ~30 days (1 block/sec) to complete task
 
         emit BidAccepted(bidId, bid.price, escrowId);
     }

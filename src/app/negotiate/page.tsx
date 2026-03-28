@@ -63,7 +63,7 @@ function NegotiateInner() {
           taskDesc || 'QmTaskSpecPlaceholder',
           targetAgent as `0x${string}`,
           parseEther(price),
-          BigInt(100), // 100 blocks TTL
+          BigInt(86400), // 86400 blocks TTL (1 day)
         ],
       });
       showToast('Broadcasting bid to Monad Testnet...', 'info');

@@ -47,7 +47,7 @@ export function AgentCard({ agent, compact = false }: AgentCardProps) {
           'QmTaskSpecPlaceholder',
           agent.agentId as `0x${string}`,
           parseUnits(agent.pricingModel.basePrice.toString(), 6),
-          BigInt(100),
+          BigInt(86400), // 24 hours TTL on Monad Testnet (1 block/sec)
         ],
       });
       showToast('Bid broadcasted successfully!', 'success');

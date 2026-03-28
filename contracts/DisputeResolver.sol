@@ -55,7 +55,7 @@ contract DisputeResolver {
         d.claimant = msg.sender;
         d.respondent = respondent;
         d.state = DisputeState.EVIDENCE_GATHERING;
-        d.voteDeadlineBlock = block.number + 240; // Approx 2 hours in Monad blocks (say 1s block time)
+        d.voteDeadlineBlock = block.number + 86400; // 24 hours voting window (1 block/sec)
 
         d.evidenceCIDs.push(evidenceCID);
 
