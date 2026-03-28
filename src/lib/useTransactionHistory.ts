@@ -41,8 +41,9 @@ export function useTransactionHistory() {
       const escrowAddr  = CONTRACT_ADDRESSES.ESCROW;
       const registryAddr = CONTRACT_ADDRESSES.REGISTRY;
 
-      // Fetch from block 0 to latest (reasonable for testnet / local)
-      const fromBlock = 0n;
+      // Fetch last 10,000 blocks to avoid RPC block range limits on public testnets
+      const currentBlock = await client.getBlockNumber();
+      const fromBlock = currentBlock > 10000n ? currentBlock - 10000n : 0n;
 
       const [
         releasedLogs,

@@ -152,7 +152,7 @@ export default function HistoryPage() {
               <div className="text-h3" style={{ fontWeight: 800 }}>READING FROM CHAIN</div>
             </div>
             <p style={{ fontFamily: 'var(--rv-font-mono)', fontSize: 13, color: 'var(--rv-gray-400)' }}>
-              Fetching all contract events from blocks 0 → latest...
+              Fetching recent contract events from the chain...
             </p>
           </div>
         )}
