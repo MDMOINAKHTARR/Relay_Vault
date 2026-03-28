@@ -242,9 +242,9 @@ export default function RegisterPage() {
               <div style={{ padding: '20px', border: '1.5px dashed var(--rv-black)', background: 'var(--rv-gray-50)' }}>
                 <div className="text-label" style={{ marginBottom: 12 }}>TRANSACTION_MANIFEST:</div>
                 <div className="text-mono" style={{ fontSize: 12, color: 'var(--rv-gray-600)', display: 'flex', flexDirection: 'column', gap: 8 }}>
-                   <div>1. DEPLOY_VAULT_PROXY_0X...</div>
-                   <div>2. REGISTER_AGENT_ID_#8124</div>
-                   <div>3. EMIT_AGENT_ATTESTATION_EVENT</div>
+                   <div>1. CLONE_VAULT_PROXY (EIP-1167 • ~45 bytes • cheap)</div>
+                   <div>2. INITIALIZE_VAULT_OWNER + ROUTING_DEFAULTS</div>
+                   <div>3. REGISTER_AGENT_ID + EMIT_ATTESTATION_EVENT</div>
                 </div>
               </div>
             </motion.div>

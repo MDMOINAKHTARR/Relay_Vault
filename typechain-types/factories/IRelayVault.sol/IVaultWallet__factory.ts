@@ -40,41 +40,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "getRouting",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "recipient",
-            type: "address",
-          },
-          {
-            internalType: "uint16",
-            name: "bps",
-            type: "uint16",
-          },
-        ],
-        internalType: "struct IVaultWallet.SplitRecipient[]",
-        name: "splits",
-        type: "tuple[]",
-      },
-      {
-        internalType: "uint16",
-        name: "lockBps",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "holdBps",
-        type: "uint16",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",

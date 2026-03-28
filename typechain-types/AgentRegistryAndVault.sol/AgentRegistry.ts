@@ -83,11 +83,13 @@ export interface AgentRegistryInterface extends Interface {
       | "owner"
       | "register"
       | "setRoles"
+      | "setVaultImplementation"
       | "suspend"
       | "taskEscrow"
       | "updateCapabilities"
       | "updatePricing"
       | "updateReputation"
+      | "vaultImplementation"
       | "vaultToAgent"
   ): FunctionFragment;
 
@@ -98,6 +100,7 @@ export interface AgentRegistryInterface extends Interface {
       | "AgentSuspended"
       | "CapabilitiesUpdated"
       | "ReputationUpdated"
+      | "VaultImplementationSet"
   ): EventFragment;
 
   encodeFunctionData(
@@ -143,6 +146,10 @@ export interface AgentRegistryInterface extends Interface {
     values: [AddressLike, AddressLike]
   ): string;
   encodeFunctionData(
+    functionFragment: "setVaultImplementation",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "suspend",
     values: [AddressLike, string]
   ): string;
@@ -161,6 +168,10 @@ export interface AgentRegistryInterface extends Interface {
   encodeFunctionData(
     functionFragment: "updateReputation",
     values: [AddressLike, BigNumberish, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "vaultImplementation",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "vaultToAgent",
@@ -194,6 +205,10 @@ export interface AgentRegistryInterface extends Interface {
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "register", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setRoles", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setVaultImplementation",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "suspend", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "taskEscrow", data: BytesLike): Result;
   decodeFunctionResult(
@@ -206,6 +221,10 @@ export interface AgentRegistryInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "updateReputation",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultImplementation",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -295,6 +314,18 @@ export namespace ReputationUpdatedEvent {
     previousScore: bigint;
     newScore: bigint;
     trigger: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace VaultImplementationSetEvent {
+  export type InputTuple = [implementation: AddressLike];
+  export type OutputTuple = [implementation: string];
+  export interface OutputObject {
+    implementation: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -403,7 +434,7 @@ export interface AgentRegistry extends BaseContract {
     [
       capabilities: BytesLike[],
       pricingModel: IAgentRegistry.PricingModelStruct,
-      routingConfig: BytesLike
+      arg2: BytesLike
     ],
     [void],
     "nonpayable"
@@ -411,6 +442,12 @@ export interface AgentRegistry extends BaseContract {
 
   setRoles: TypedContractMethod<
     [_taskEscrow: AddressLike, _disputeResolver: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
+  setVaultImplementation: TypedContractMethod<
+    [_impl: AddressLike],
     [void],
     "nonpayable"
   >;
@@ -440,6 +477,8 @@ export interface AgentRegistry extends BaseContract {
     [void],
     "nonpayable"
   >;
+
+  vaultImplementation: TypedContractMethod<[], [string], "view">;
 
   vaultToAgent: TypedContractMethod<[arg0: AddressLike], [string], "view">;
 
@@ -509,7 +548,7 @@ export interface AgentRegistry extends BaseContract {
     [
       capabilities: BytesLike[],
       pricingModel: IAgentRegistry.PricingModelStruct,
-      routingConfig: BytesLike
+      arg2: BytesLike
     ],
     [void],
     "nonpayable"
@@ -521,6 +560,9 @@ export interface AgentRegistry extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "setVaultImplementation"
+  ): TypedContractMethod<[_impl: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "suspend"
   ): TypedContractMethod<
@@ -552,6 +594,9 @@ export interface AgentRegistry extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "vaultImplementation"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "vaultToAgent"
   ): TypedContractMethod<[arg0: AddressLike], [string], "view">;
@@ -590,6 +635,13 @@ export interface AgentRegistry extends BaseContract {
     ReputationUpdatedEvent.InputTuple,
     ReputationUpdatedEvent.OutputTuple,
     ReputationUpdatedEvent.OutputObject
+  >;
+  getEvent(
+    key: "VaultImplementationSet"
+  ): TypedContractEvent<
+    VaultImplementationSetEvent.InputTuple,
+    VaultImplementationSetEvent.OutputTuple,
+    VaultImplementationSetEvent.OutputObject
   >;
 
   filters: {
@@ -646,6 +698,17 @@ export interface AgentRegistry extends BaseContract {
       ReputationUpdatedEvent.InputTuple,
       ReputationUpdatedEvent.OutputTuple,
       ReputationUpdatedEvent.OutputObject
+    >;
+
+    "VaultImplementationSet(address)": TypedContractEvent<
+      VaultImplementationSetEvent.InputTuple,
+      VaultImplementationSetEvent.OutputTuple,
+      VaultImplementationSetEvent.OutputObject
+    >;
+    VaultImplementationSet: TypedContractEvent<
+      VaultImplementationSetEvent.InputTuple,
+      VaultImplementationSetEvent.OutputTuple,
+      VaultImplementationSetEvent.OutputObject
     >;
   };
 }

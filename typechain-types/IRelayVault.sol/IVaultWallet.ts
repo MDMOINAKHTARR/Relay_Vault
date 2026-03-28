@@ -38,7 +38,6 @@ export interface IVaultWalletInterface extends Interface {
     nameOrSignature:
       | "claimUnlocked"
       | "getBalance"
-      | "getRouting"
       | "initialize"
       | "receivePayment"
       | "setRouting"
@@ -51,10 +50,6 @@ export interface IVaultWalletInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getBalance",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRouting",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -79,7 +74,6 @@ export interface IVaultWalletInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getBalance", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getRouting", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "receivePayment",
@@ -146,18 +140,6 @@ export interface IVaultWallet extends BaseContract {
     "view"
   >;
 
-  getRouting: TypedContractMethod<
-    [],
-    [
-      [IVaultWallet.SplitRecipientStructOutput[], bigint, bigint] & {
-        splits: IVaultWallet.SplitRecipientStructOutput[];
-        lockBps: bigint;
-        holdBps: bigint;
-      }
-    ],
-    "view"
-  >;
-
   initialize: TypedContractMethod<
     [_owner: AddressLike, _taskEscrow: AddressLike, _currency: AddressLike],
     [void],
@@ -202,19 +184,6 @@ export interface IVaultWallet extends BaseContract {
         available: bigint;
         locked: bigint;
         total: bigint;
-      }
-    ],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "getRouting"
-  ): TypedContractMethod<
-    [],
-    [
-      [IVaultWallet.SplitRecipientStructOutput[], bigint, bigint] & {
-        splits: IVaultWallet.SplitRecipientStructOutput[];
-        lockBps: bigint;
-        holdBps: bigint;
       }
     ],
     "view"
